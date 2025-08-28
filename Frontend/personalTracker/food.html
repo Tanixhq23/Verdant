@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Food Carbon Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f8f7
+    }
+
+    .hero {
+      background: url('/images/zim2.png') center/cover no-repeat;
+      height: 700px;
+      position: relative;
+
+    }
+
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+      background-color: rgb(11, 52, 46);
+      color: white;
+      border-radius: 0px;
+    }
+
+    .btn-custom:hover {
+      background-color: rgb(8, 40, 35);
+      color: white;
+    }
+
+    #footer {
+      height: 100%;
+    }
+
+    ::placeholder {
+      color: white !important;
+      opacity: 1;
+    }
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #0b342e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 10px center;
+      background-size: 14px;
+      padding-right: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg" style="background-color: #0b342e; width: 100%;">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-white" href="#">Verdant</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link text-white" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="../websitetracker/">Audit</a></li>
+            <!-- <li class="nav-item"><a class="nav-link text-white" href="../login.html">Sign-In</a></li> -->
+            <li class="nav-item"><a class="nav-link text-white" href="../contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="../about.html">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-text text-center">
+        <h1 class="fw-bold">Calculate Food Carbon Emission</h1>
+        <p class="fs-5">Know your meal's environmental impact and make greener choices.</p>
+      </div>
+    </div>
+
+
+    <div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="rounded shadow" style="background: white; border-radius: 15px; overflow: hidden;">
+
+        <!-- Header -->
+        <div style="background-color: #0b342e; color: white; padding: 15px 20px;">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Select Your Food Type:</h5>
+            <select id="mainSelect" class="form-control text-center text-white custom-select ingredient-heading"
+              style="width: 140px; border-radius: 20px; background-color: #0b342e; border: 1px solid white;">
+              <option value="" disabled selected>Food</option>
+              <option value="clothing">Vegetarian</option>
+              <option value="grocery">Non-Vegetarian</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Vegetarian section -->
+        <div id="vegetarianSection" class="p-4 d-none">
+          <div class="row fw-bold mb-3">
+            <div class="col-4">Select the food item</div>
+            <div class="col-4">Quantity/Servings</div>
+            <div class="col-2">Weight</div>
+          </div>
+          <form>
+            <div id="vegetarianFields">
+              <div class="row mb-3 align-items-center ingredient-row">
+                <div class="col-4">
+                  <select class="form-select" name="ingredient[]">
+                    <option selected disabled>Choose an ingredient</option>
+                    <optgroup label="Vegetarian Options">
+                      <optgroup label="Single items">
+                        <option value="roti">Roti</option>
+                        <option value="Rice">Rice</option>
+                        <option value="Dal">Dal</option>
+                        <option value="Paneer">Paneer</option>
+                        <option value="Milk">Milk</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Oil">Oil</option>
+                        <option value="Curd">Curd</option>
+                        <option value="Butter">Butter</option>
+                        <option value="Cheese">Cheese</option>
+                        <option value="Chhole">Chhole</option>
+                        <option value="Aloo paratha">Aloo paratha</option>
+                        <option value="Kadhi">Kadhi</option>
+                        <option value="Veg Pulao">Veg Pulao</option>
+                        <option value="Maggi">Maggi</option>
+                      </optgroup>
+                      <optgroup label="Dishes">
+                        <option value="Chhole Bhature">Chhole Bhature</option>
+                        <option value="Idli Sambhar">Idli Sambhar</option>
+                        <option value="Paneer Tikka">Paneer Tikka</option>
+                        <option value="Veg Biryani">Veg Biryani</option>
+                        <option value="Rajma Chawal">Rajma Chawal</option>
+                        <option value="Aloo Paratha">Aloo Paratha</option>
+                        <option value="Samosa">Samosa</option>
+                        <option value="Masala Dosa">Masala Dosa</option>
+                        <option value="Pav Bhaji">Pav Bhaji</option>
+                        <option value="Kadhi Chawal">Kadhi Chawal</option>
+                        <option value="Vegetable Sandwich">Vegetable Sandwich</option>
+                        <option value="Poha">Poha</option>
+                        <option value="Upma">Upma</option>
+                        <option value="Veg Momos">Veg Momos </option>
+                        <option value="Dhokla">Dhokla</option>
+                      </optgroup>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div class="col-4">
+                  <input type="number" class="form-control" name="Quantity[]" placeholder="Units Consumed" min="1" required>
+                </div>
+                <div class="col-2">
+                  <select class="form-select" name="weightUnit[]">
+                    <option selected disabled>Unit</option>
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="piece">piece</option>
+                    <option value="cup">cup</option>
+                    <option value="plate">plate</option>
+                    <option value="ml">ml</option>
+                    <option value="L">liters</option>
+                  </select>
+                </div>
+                <div class="col-2 text-end">
+                  <button type="button"
+                    class="btn btn-sm btn-outline-danger rounded-circle remove-btn">&times;</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-link fw-bold" id="addVegetarian">+ Add more</button>
+            <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end"
+              style="background-color: #0b342e; color: white; border-radius: 30px; font-weight: 600;">Calculate</button>
+          </form>
+        </div>
+
+        <!-- Non-Vegetarian section -->
+        <div id="nonVegSection" class="p-4 d-none">
+          <div class="row fw-bold mb-3">
+            <div class="col-4">Select the food item</div>
+            <div class="col-4">Quantity/Servings</div>
+            <div class="col-2">Weight</div>
+          </div>
+          <form>
+            <div id="nonVegFields">
+              <div class="row mb-3 align-items-center ingredient-row">
+                <div class="col-4">
+                  <select class="form-select" name="ingredient[]">
+                    <option selected disabled>Choose an ingredient</option>
+                    <optgroup label="Non-Vegetarian Options">
+                      <optgroup label="Single Items">
+                        <option value="Chicken">Chicken</option>
+                        <option value="Egg">Egg</option>
+                        <option value="Fish">Fish</option>
+                        <option value="Mutton">Mutton</option>
+                        <option value="Chicken Curry">Chicken Curry</option>
+                        <option value="Egg Curry">Egg Curry</option>
+                        <option value="Fish Curry">Fish Curry</option>
+                        <option value="Omlette">Omlette</option>
+                        <option value="Chicken Biryani">Chicken Biryani</option>
+                        <option value="Mutton Biryani">Mutton Biryani</option>
+                        <option value="Egg Biryani">Egg Biryani</option>
+                        <option value="Egg Roll">Egg Roll</option>
+                        <option value="Chicken Roll">Chicken Roll</option>
+                        <option value="Fish Fry">Fish Fry</option>
+                        <option value="Chicken Tikka">Chicken Tikka</option>
+                      </optgroup>
+                      <optgroup label="Dishes">
+                        <option value="Butter Chicken with Naan">Butter Chicken with Naan</option>
+                        <option value="Fish Curry">Fish Curry</option>
+                        <option value="Egg Curry">Egg Curry</option>
+                        <option value="Chicken Biryani ">Chicken Biryani</option>
+                        <option value="Mutton Rogan Josh">Mutton Rogan Josh</option>
+                        <option value="Prawn Masala">Prawn Masala</option>
+                        <option value="Fried Fish">Fried Fish</option>
+                        <option value="Grilled Chicken">Grilled Chicken</option>
+                        <option value="Chicken Shawarma">Chicken Shawarma</option>
+                        <option value="Chiken Kebab">Chiken Kebab</option>
+                        <option value="Tandoori Chicken">Tandoori Chicken</option>
+                        <option value="Chicken Burger">Chicken Burger</option>
+                        <option value="Fish Fry with Rice">Fish Fry with Rice</option>
+                        <option value="Mutton Korma">Mutton Korma</option>
+                        <option value="Egg Bhurji">Egg Bhurji</option>
+                      </optgroup>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div class="col-4">
+                  <input type="number" class="form-control" name="Quantity[]" placeholder="Units Consumed" min="1" required>
+                </div>
+                <div class="col-2">
+                  <select class="form-select" name="weightUnit[]">
+                    <option selected disabled>Unit</option>
+                    <option value="g">g</option>
+                    <option value="kg">kg</option>
+                    <option value="piece">piece</option>
+                    <option value="cup">cup</option>
+                    <option value="plate">plate</option>
+                  </select>
+                </div>
+                <div class="col-2 text-end">
+                  <button type="button"
+                    class="btn btn-sm btn-outline-danger rounded-circle remove-btn">&times;</button>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-link fw-bold" id="addNonVeg">+ Add more</button>
+            <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end"
+              style="background-color: #0b342e; color: white; border-radius: 30px; font-weight: 600;">Calculate</button>
+          </form>
+        </div>
+
+      </div> <!-- End rounded shadow -->
+    </div> <!-- End col-md-8 -->
+  </div> <!-- End row -->
+</div> <!-- End container -->
+
+<div class="container my-5">
+        <div id="results" class="result-box d-none"></div>
+      </div>
+
+    <!-- Article Section -->
+
+    <div class="container my-5">
+      <div class="p-4" style="background-color: #f8f9fa; border-radius: 15px;">
+
+        <h3 class="fw-bold mb-4 mt-4" style="color: #0b342e;">How to Lower Your Food's Carbon Footprint</h3>
+
+        <p>Food production accounts for around a third of global greenhouse gas emissions. Reducing your food-related
+          carbon footprint is therefore one of the most effective ways to fight climate change.</p>
+
+        <p>It can be confusing to know where to start, so here are four practical ways to cut down the carbon footprint
+          of your diet.</p>
+        <img src="/images/food1.png" style="height: 400px; width: 70%; position: relative; display: block; margin: auto;">
+
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">1. Eat fewer animal products</h5>
+        <p>Animal-based foods, especially meat, have much higher carbon emissions compared to plant-based foods. This is
+          mainly due to emissions from farming and land use rather than transportation or packaging.</p>
+
+        <h6 class="fw-bold">Beef</h6>
+        <p>Beef has the highest carbon footprint of all foods. Producing 1kg of beef generates about four times the
+          emissions of other foods, mainly due to methane released by cows. For example, eating just 125g of beef emits
+          as much CO2 as driving a car for over 43km!</p>
+        <p>Switching beef with chicken reduces emissions sevenfold, pork reduces them fivefold, and lamb cuts them by
+          half, though lamb still remains emission-heavy.</p>
+
+        <h6 class="fw-bold">Meat and dairy products</h6>
+        <p>All meats and dairy have higher-than-average emissions. Butter, for instance, emits more than chicken or
+          pork. Replacing butter with margarine can cut emissions by a third. While milk has lower emissions than beef,
+          it still produces twice the emissions of soy milk.</p>
+        <p>Plant-based alternatives like tofu, legumes, and grains have much lower footprints, making them sustainable
+          substitutes for meat and dairy.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">2. Choose seasonal foods</h5>
+        <p>Eating foods in their natural season helps cut emissions since growing out-of-season foods requires
+          energy-intensive artificial conditions. Studies show that eating seasonal produce, even if imported, can cut
+          emissions by over 85% compared to local but out-of-season foods.</p>
+        <p>Eating seasonally also reconnects us with nature and supports sustainability.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">3. Cut down on food waste</h5>
+        <p>Around 25% of all food is wasted, which makes up about 6% of global emissions – more than the entire aviation
+          industry. Most food waste happens at home. Planning meals, buying only what you need, and using food before it
+          spoils are simple ways to reduce waste.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">4. Avoid air-freighted foods</h5>
+        <p>Although less than 1% of food is transported by air, these foods contribute about 12% of total food transport
+          emissions due to the high impact of air travel.</p>
+        <h6 class="fw-bold">How to spot air-freighted foods</h6>
+        <p>Labels rarely state if food was flown, but as a rule, avoid products with short shelf-lives that come from
+          far away, especially if freshness is emphasised. These are usually flown in to maintain quality quickly.</p>
+        <img src="/images/food5.png" style="height: 400px; width: 70%; position: relative; display: block; margin: auto;">
+
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">Conclusion</h5>
+        <p>Adopting a sustainable diet requires conscious decisions, but small changes like eating less meat, choosing
+          seasonal produce, reducing food waste, and avoiding air-freighted foods can significantly lower your carbon
+          footprint.</p>
+
+        <img src="/images/food3.png" style="height: 400px; width: 70%; position: relative; display: block; margin: auto;">
+
+
+      </div>
+    </div>
+
+
+
+    <a href="../faq.html" class="btn btn-dark position-fixed bottom-0 end-0 m-3 rounded-pill">FAQs</a>
+
+
+
+    <footer class="mt-auto text-white py-4" style="background-color: #0b342e; " id="footer">
+      <div class="container text-center">
+        <p class="mb-1">© 2025 Verdant. All rights reserved.</p>
+        <p class="mb-0">
+          <a href="../about.html" class="text-white text-decoration-none me-3">About</a>
+          <a href="../contact.html" class="text-white text-decoration-none me-3">Contact</a>
+          <a href="../faq.html" class="text-white text-decoration-none">FAQs</a>
+        </p>
+      </div>
+    </footer>
+
+
+  </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainSelect = document.getElementById("mainSelect");
+        const vegetarianSection = document.getElementById("vegetarianSection");
+        const nonVegSection = document.getElementById("nonVegSection");
+        const resultsDiv = document.getElementById("results");
+
+        // Event listener for the main dropdown
+        mainSelect.addEventListener("change", function () {
+            vegetarianSection.classList.add("d-none");
+            nonVegSection.classList.add("d-none");
+            resultsDiv.classList.add("d-none");
+
+            if (this.value === "clothing") {
+                vegetarianSection.classList.remove("d-none");
+            } else if (this.value === "grocery") {
+                nonVegSection.classList.remove("d-none");
+            }
+        });
+
+        // Function to add a new row
+        function addRow(containerId) {
+            const container = document.getElementById(containerId);
+            const firstRow = container.querySelector(".ingredient-row");
+            const newRow = firstRow.cloneNode(true);
+            newRow.querySelectorAll("input").forEach(input => input.value = "");
+            newRow.querySelectorAll("select").forEach(select => select.selectedIndex = 0);
+            container.appendChild(newRow);
+
+            const removeBtn = newRow.querySelector('.remove-btn');
+            if (removeBtn) {
+                removeBtn.style.display = 'inline-block';
+                removeBtn.addEventListener('click', () => {
+                    newRow.remove();
+                });
+            }
+        }
+
+        // Add row listeners
+        document.getElementById("addVegetarian").addEventListener("click", () => addRow("vegetarianFields"));
+        document.getElementById("addNonVeg").addEventListener("click", () => addRow("nonVegFields"));
+        
+        // Hide remove button on initial rows
+        document.querySelectorAll('.ingredient-row .remove-btn').forEach(btn => btn.style.display = 'none');
+
+
+        // Function to handle form submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            resultsDiv.classList.add("d-none");
+            resultsDiv.innerHTML = `<p>Calculating...</p>`;
+            resultsDiv.classList.remove("d-none");
+
+            const inputs = [];
+            const rows = form.querySelectorAll(".ingredient-row");
+            rows.forEach(row => {
+                const item = row.querySelector("select[name='ingredient[]']").value;
+                const quantity = row.querySelector("input[name='Quantity[]']").value;
+                const unit = row.querySelector("select[name='weightUnit[]']").value;
+                if (item && quantity && unit) {
+                    inputs.push({
+                        type: item,
+                        quantity: parseFloat(quantity),
+                        unit: unit
+                    });
+                }
+            });
+
+            try {
+                const response = await fetch("/api/v1/footprint/food", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ inputs }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    let suggestionsHTML = result.data.suggestions
+                        .map(
+                            (s) =>
+                            `<li><strong>${s.title}:</strong> ${s.description}</li>`
+                        )
+                        .join("");
+
+                    resultsDiv.innerHTML = `
+                        <h4 class="fw-bold" style="color: #0b342e;">Your Food Footprint:</h4>
+                        <p style="font-size: 2rem; font-weight: bold; color: #0b342e;">${result.data.footprint.toFixed(
+                            2
+                        )} kg CO₂e</p>
+                        <h5 class="mt-4 fw-bold" style="color: #0b342e;">Personalized Suggestions:</h5>
+                        <ul>${suggestionsHTML}</ul>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p class="text-danger">Error: ${result.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                resultsDiv.innerHTML = `<p class="text-danger">A network error occurred. Please try again.</p>`;
+            } finally {
+                submitBtn.disabled = false;
+                resultsDiv.scrollIntoView({ behavior: "smooth" });
+            }
+        }
+
+        // Attach event listeners to both forms
+        document.querySelector("#vegetarianSection form").addEventListener("submit", handleFormSubmit);
+        document.querySelector("#nonVegSection form").addEventListener("submit", handleFormSubmit);
+    });
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

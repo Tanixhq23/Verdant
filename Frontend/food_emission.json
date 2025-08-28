@@ -1,0 +1,290 @@
+{
+    "food_emissions": {
+        "veg": {
+            "with_quantity": [
+                {
+                    "Roti": {
+                        "unit": "piece",
+                        "emission": 0.4
+                    },
+                    "Rice": {
+                        "unit": "bowl",
+                        "emission": 0.6
+                    },
+                    "Dal": {
+                        "unit": "bowl",
+                        "emission": 0.5
+                    },
+                    "Paneer": {
+                        "unit": "100g",
+                        "emission": 1.2
+                    },
+                    "Milk": {
+                        "unit": "glass",
+                        "emission": 0.7
+                    },
+                    "Vegetables": {
+                        "unit": "bowl",
+                        "emission": 0.4
+                    },
+                    "Oil": {
+                        "unit": "tbsp",
+                        "emission": 0.3
+                    },
+                    "Curd": {
+                        "unit": "bowl",
+                        "emission": 0.6
+                    },
+                    "Butter": {
+                        "unit": "tbsp",
+                        "emission": 0.5
+                    },
+                    "Cheese": {
+                        "unit": "slice",
+                        "emission": 1.1
+                    },
+                    "Chhole": {
+                        "unit": "bowl",
+                        "emission": 1.0
+                    },
+                    "Aloo Paratha": {
+                        "unit": "piece",
+                        "emission": 1.2
+                    },
+                    "Kadhi": {
+                        "unit": "bowl",
+                        "emission": 0.9
+                    },
+                    "Veg Pulao": {
+                        "unit": "plate",
+                        "emission": 1.6
+                    },
+                    "Maggi": {
+                        "unit": "packet",
+                        "emission": 1.4
+                    }
+                }
+            ],
+            "without_quantity": [
+                {
+                    "name": "Chhole Bhature",
+                    "approx_emission": 3.5,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Idli Sambar",
+                    "approx_emission": 2.0,
+                    "unit": "per serving"
+                },
+                {
+                    "name": "Paneer Tikka",
+                    "approx_emission": 4.2,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Veg Biryani",
+                    "approx_emission": 3.0,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Rajma Chawal",
+                    "approx_emission": 2.8,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Aloo Paratha",
+                    "approx_emission": 1.5,
+                    "unit": "per piece"
+                },
+                {
+                    "name": "Samosa",
+                    "approx_emission": 0.6,
+                    "unit": "per piece"
+                },
+                {
+                    "name": "Masala Dosa",
+                    "approx_emission": 2.3,
+                    "unit": "per piece"
+                },
+                {
+                    "name": "Pav Bhaji",
+                    "approx_emission": 3.1,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Kadhi Chawal",
+                    "approx_emission": 2.4,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Vegetable Sandwich",
+                    "approx_emission": 1.8,
+                    "unit": "per sandwich"
+                },
+                {
+                    "name": "Poha",
+                    "approx_emission": 1.3,
+                    "unit": "per serving"
+                },
+                {
+                    "name": "Upma",
+                    "approx_emission": 1.5,
+                    "unit": "per serving"
+                },
+                {
+                    "name": "Veg Momos",
+                    "approx_emission": 1.7,
+                    "unit": "6 pcs"
+                },
+                {
+                    "name": "Dhokla",
+                    "approx_emission": 1.2,
+                    "unit": "per plate"
+                }
+            ]
+        },
+        "non_veg": {
+            "with_quantity": [
+                {
+                    "Chicken": {
+                        "unit": "100g",
+                        "emission": 2.4
+                    },
+                    "Egg": {
+                        "unit": "piece",
+                        "emission": 0.9
+                    },
+                    "Fish": {
+                        "unit": "100g",
+                        "emission": 3.0
+                    },
+                    "Mutton": {
+                        "unit": "100g",
+                        "emission": 5.0
+                    },
+                    "Chicken Curry": {
+                        "unit": "plate",
+                        "emission": 3.5
+                    },
+                    "Egg Curry": {
+                        "unit": "plate",
+                        "emission": 2.4
+                    },
+                    "Fish Curry": {
+                        "unit": "plate",
+                        "emission": 3.8
+                    },
+                    "Omelette": {
+                        "unit": "piece",
+                        "emission": 1.0
+                    },
+                    "Chicken Biryani": {
+                        "unit": "plate",
+                        "emission": 4.2
+                    },
+                    "Mutton Biryani": {
+                        "unit": "plate",
+                        "emission": 5.5
+                    },
+                    "Egg Biryani": {
+                        "unit": "plate",
+                        "emission": 3.1
+                    },
+                    "Egg Roll": {
+                        "unit": "piece",
+                        "emission": 2.0
+                    },
+                    "Chicken Roll": {
+                        "unit": "piece",
+                        "emission": 2.8
+                    },
+                    "Fish Fry": {
+                        "unit": "piece",
+                        "emission": 3.2
+                    },
+                    "Chicken Tikka": {
+                        "unit": "plate",
+                        "emission": 3.7
+                    }
+                }
+            ],
+            "without_quantity": [
+                {
+                    "name": "Butter Chicken with Naan",
+                    "approx_emission": 7.2,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Fish Curry",
+                    "approx_emission": 5.5,
+                    "unit": "per serving"
+                },
+                {
+                    "name": "Egg Curry",
+                    "approx_emission": 4.4,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Chicken Biryani",
+                    "approx_emission": 6.8,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Mutton Rogan Josh",
+                    "approx_emission": 8.5,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Prawn Masala",
+                    "approx_emission": 6.0,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Fried Fish",
+                    "approx_emission": 5.0,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Grilled Chicken",
+                    "approx_emission": 6.2,
+                    "unit": "per portion"
+                },
+                {
+                    "name": "Chicken Shawarma",
+                    "approx_emission": 4.9,
+                    "unit": "per roll"
+                },
+                {
+                    "name": "Chicken Kebab",
+                    "approx_emission": 4.6,
+                    "unit": "per skewer"
+                },
+                {
+                    "name": "Tandoori Chicken",
+                    "approx_emission": 6.5,
+                    "unit": "per leg"
+                },
+                {
+                    "name": "Chicken Burger",
+                    "approx_emission": 5.3,
+                    "unit": "per piece"
+                },
+                {
+                    "name": "Fish Fry with Rice",
+                    "approx_emission": 6.1,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Mutton Korma",
+                    "approx_emission": 9.0,
+                    "unit": "per plate"
+                },
+                {
+                    "name": "Egg Bhurji",
+                    "approx_emission": 3.7,
+                    "unit": "per plate"
+                }
+            ]
+    }
+}
+}

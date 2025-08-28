@@ -1,0 +1,157 @@
+/* second page*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  height: 100vh;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('/verdant_frontend/image.png'); /* example image */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(2px);
+}
+
+.container {
+  width: 750px;
+  height: 400px;
+  display: flex;
+  border-radius: 15px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background: white;
+}
+
+.left-panel {
+  flex: 1;
+  background: linear-gradient(to bottom right, #1e8473, #0b342e);
+  color: white;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-panel .logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.left-panel h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.left-panel p {
+  font-size: 14px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.sign-up-btn {
+  background: transparent;
+  border: 2px solid white;
+  padding: 10px 30px;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.sign-up-btn:hover {
+  background-color: white;
+  color: #00bfa6;
+}
+
+.right-panel {
+  flex: 1;
+  padding: 60px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.right-panel h2 {
+  color: #00bfa6;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.social-icons {
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.social-icons i {
+  width: 40px;
+  height: 40px;
+  background-color: #f1f1f1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+.social-icons i:hover {
+  background-color: #00bfa6;
+  color: white;
+}
+
+.email-msg {
+  color: #999;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.signin-form input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  outline: none;
+  font-size: 14px;
+}
+
+.forgot {
+  color: #00bfa6;
+  font-size: 13px;
+  text-align: right;
+  margin-top: -10px;
+  text-decoration: none;
+}
+
+.sign-in-btn {
+ padding: 12px 0;
+  background-color:#1e8473;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sign-in-btn:hover {
+  background-color: #019e88;
+}

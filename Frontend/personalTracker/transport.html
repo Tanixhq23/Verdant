@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Transport Carbon Calculator</title>
+  
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f8f7
+    }
+
+    .hero {
+      background: url('/images/zim2.png') center/cover no-repeat;
+      height: 700px;
+      position: relative;
+
+    }
+
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    .card-shadow {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-custom {
+      background-color: rgb(11, 52, 46);
+      color: white;
+      border-radius: 0px;
+    }
+
+    .btn-custom:hover {
+      background-color: rgb(8, 40, 35);
+      color: white;
+    }
+
+    #footer {
+      height: 100%;
+    }
+
+    ::placeholder {
+      color: white !important;
+      opacity: 1;
+    }
+
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #0b342e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 10px center;
+      background-size: 14px;
+      padding-right: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg" style="background-color: #0b342e;">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-white" href="#">Verdant</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link text-white" href="../index.html">Home</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="../websiteTracker/">Audit</a></li>
+            <!-- <li class="nav-item"><a class="nav-link text-white" href="../login.html">Sign-In</a></li> -->
+            <li class="nav-item"><a class="nav-link text-white" href="../contact.html">Contact</a></li>
+            <li class="nav-item"><a class="nav-link text-white" href="../about.html">About Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-text text-center">
+        <h1 class="fw-bold">Calculate Transport Carbon Emissions</h1>
+        <p class="fs-5">Understand the environmental impact of your travel and make eco-friendly transport choices.</p>
+      </div>
+    </div>
+
+    <div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="rounded shadow" style="background: white; border-radius: 15px; overflow: hidden;">
+        <div style="background-color: #0b342e; color: white; padding: 15px 20px;">
+          <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Select Your Transport Type:</h5>
+            <div class="select-container">
+              <select id="mainSelect" class="form-control text-center text-white custom-select ingredient-heading"
+                style="width: 140px; border-radius: 20px; background-color: #0b342e; border: 1px solid white;">
+                <option value="" disabled selected>Transport</option>
+                <option value="personal">Private</option>
+                <option value="public">Public</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Personal Section -->
+        <div id="personalSection" class="p-4 d-none">
+          <div class="row fw-bold mb-3">
+            <div class="col-3">Vehicle</div>
+            <div class="col-3">Fuel</div>
+            <div class="col-2">Distance</div>
+            <div class="col-2">Unit</div>
+          </div>
+
+          <form id="personalForm">
+            <div id="personalFields">
+              <div class="row mb-3 align-items-center ingredient-row">
+                <div class="col-3">
+                  <select class="form-select" name="vehicle[]" required>
+                    <option selected disabled>Choose Private Vehicle</option>
+                    <optgroup label="Car">
+                      <option value="car_suv">SUV</option>
+                      <option value="car_muv">MUV</option>
+                      <option value="car_sedan">Sedan</option>
+                      <option value="car_hatchback">Hatchback</option>
+                      <option value="car_pickup">Pickup</option>
+                      <option value="car_cng">CNG</option>
+                      <option value="car_electric">Electric</option>
+                    </optgroup>
+                    <optgroup label="Bike">
+                      <option value="bike_standard">Standard</option>
+                      <option value="bike_sports">Sports</option>
+                      <option value="bike_cruiser">Cruiser</option>
+                      <option value="bike_electric">Electric</option>
+                    </optgroup>
+                    <optgroup label="Scooty">
+                      <option value="scooty_petrol">Petrol</option>
+                      <option value="scooty_electric">Electric</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="col-3">
+                  <select class="form-select" name="fuel[]" required>
+                    <option value="" disabled selected>Fuel</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="electric">Electric</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <input type="number" class="form-control" name="distance[]" placeholder="Distance" min="1" required>
+                </div>
+                <div class="col-2">
+                  <select class="form-select" name="unit[]" required>
+                    <option value="" disabled selected>Unit</option>
+                    <option value="m">m</option>
+                    <option value="km">km</option>
+                  </select>
+                </div>
+                <div class="col-1 text-end">
+                  <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">&times;</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="button" class="btn btn-link fw-bold" id="addPersonal">+ Add more</button>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col text-end">
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow"
+                  style="background-color: #0b342e; color: white; border-radius: 30px; font-weight: 600;">
+                  Calculate
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Public Section -->
+        <div id="publicSection" class="p-4 d-none">
+          <div class="row fw-bold mb-3">
+            <div class="col-3">Vehicle</div>
+            <div class="col-3">Fuel</div>
+            <div class="col-2">Distance</div>
+            <div class="col-2">Unit</div>
+          </div>
+
+          <form id="publicForm">
+            <div id="publicFields">
+              <div class="row mb-3 align-items-center ingredient-row">
+                <div class="col-3">
+                  <select class="form-select" name="vehicle[]" required>
+                    <option selected disabled>Choose Public Vehicle</option>
+                    <optgroup label="Bus">
+                      <option value="bus_public_city">Public City</option>
+                      <option value="bus_public_intercity">Public Intercity</option>
+                      <option value="bus_private_city">Private City</option>
+                      <option value="bus_private_intercity">Private Intercity</option>
+                      <option value="bus_electric">Electric</option>
+                    </optgroup>
+                    <optgroup label="Train">
+                      <option value="train_electric">Electric</option>
+                      <option value="train_diesel">Diesel</option>
+                    </optgroup>
+                    <optgroup label="Flight">
+                      <option value="flight_domestic">Domestic</option>
+                      <option value="flight_international_short">International Short</option>
+                      <option value="flight_international_long">International Long</option>
+                    </optgroup>
+                    <optgroup label="Auto Rickshaw">
+                      <option value="auto_rickshaw_petrol">Petrol</option>
+                      <option value="auto_rickshaw_cng">CNG</option>
+                      <option value="auto_rickshaw_electric">Electric</option>
+                    </optgroup>
+                  </select>
+                </div>
+                <div class="col-3">
+                  <select class="form-select" name="fuel[]" required>
+                    <option value="" disabled selected>Fuel</option>
+                    <option value="petrol">Petrol</option>
+                    <option value="diesel">Diesel</option>
+                    <option value="electric">Electric</option>
+                  </select>
+                </div>
+                <div class="col-2">
+                  <input type="number" class="form-control" name="distance[]" placeholder="Distance" min="1" required>
+                </div>
+                <div class="col-2">
+                  <select class="form-select" name="unit[]" required>
+                    <option value="" disabled selected>Unit</option>
+                    <option value="m">m</option>
+                    <option value="km">km</option>
+                  </select>
+                </div>
+                <div class="col-1 text-end">
+                  <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">&times;</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <button type="button" class="btn btn-link fw-bold" id="addPublic">+ Add more</button>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col text-end">
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow"
+                  style="background-color: #0b342e; color: white; border-radius: 30px; font-weight: 600;">
+                  Calculate
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container my-5">
+        <div id="results" class="result-box d-none"></div>
+      </div>
+    <!-- Transportation Article Section -->
+
+    <div class="container my-5">
+      <div class="p-4" style="background-color: #f8f9fa; border-radius: 15px;">
+
+        <h3 class="fw-bold mb-4 mt-4" style="color: #0b342e;">How to Lower Your Transportation Carbon Footprint</h3>
+
+        <p>Transportation accounts for nearly a quarter of global carbon emissions. Cars, trucks, ships, planes, and
+          trains all contribute significantly to climate change. Making smarter transportation choices can greatly
+          reduce your carbon footprint.</p>
+
+        <p>Here are four practical ways to cut down your transportation-related carbon emissions.</p>
+
+        <img src="/images/transport1.png " style="height: 400px; width: 70%; display: block; margin: auto;">
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">1. Use public transport or carpool</h5>
+        <p>Public transport like buses, metros, and trains emits far less CO<sub>2</sub> per person compared to
+          individual cars. Carpooling with colleagues or friends reduces fuel use and emissions by sharing rides.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">2. Walk or cycle for short distances</h5>
+        <p>Nearly half of all car trips are under 5 km. Walking or cycling not only cuts emissions but also improves
+          your health and saves money on fuel.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">3. Fly less, choose trains where possible</h5>
+        <p>Air travel is one of the fastest-growing sources of greenhouse gases. A single long-haul flight can emit as
+          much CO<sub>2</sub> as some people produce in an entire year. Choosing trains over planes for short and medium
+          distances drastically reduces your footprint.</p>
+
+        <h6 class="fw-bold">Example: Delhi to Jaipur</h6>
+        <p>A flight emits around 125 kg CO<sub>2</sub> per passenger, while a train journey emits only about 12 kg
+          CO<sub>2</sub>, reducing emissions by over 90%.</p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">4. Drive efficiently</h5>
+        <p>If you must use a car, maintain it well, avoid over-speeding, and accelerate smoothly to improve fuel
+          efficiency. Keeping tyres inflated and reducing unnecessary weight in the car also helps cut emissions.</p>
+
+        <img src="/images/transport2.jpg" style="height: 400px; width: 70%; display: block; margin: auto;">
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e;">Conclusion</h5>
+        <p>Reducing your transportation carbon footprint is achievable through conscious daily choices. Using public
+          transport, walking or cycling, flying less, and driving efficiently are impactful ways to fight climate
+          change.</p>
+
+        <img src="/images/transport3.png" style="height: 400px; width: 70%; display: block; margin: auto;">
+
+      </div>
+    </div>
+
+
+  </div>
+  </div>
+
+
+
+
+<a href="../faq.html" class="btn btn-dark position-fixed bottom-0 end-0 m-3 rounded-pill">FAQs</a>
+
+
+  <footer class="mt-auto text-white py-4" style="background-color: #0b342e; " id="footer">
+    <div class="container text-center">
+      <p class="mb-1">© 2025 Verdant. All rights reserved.</p>
+      <p class="mb-0">
+        <a href="../about.html" class="text-white text-decoration-none me-3">About</a>
+        <a href="../contact.html" class="text-white text-decoration-none me-3">Contact</a>
+        <a href="../faq.html" class="text-white text-decoration-none">FAQs</a>
+      </p>
+    </div>
+  </footer>
+
+
+  </div>
+
+
+  
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const mainSelect = document.getElementById("mainSelect");
+        const personalSection = document.getElementById("personalSection");
+        const publicSection = document.getElementById("publicSection");
+        const resultsDiv = document.getElementById("results");
+
+        // Event listener for the main dropdown to show/hide sections
+        mainSelect.addEventListener("change", function () {
+            personalSection.classList.add("d-none");
+            publicSection.classList.add("d-none");
+            resultsDiv.classList.add("d-none");
+
+            if (this.value === "personal") {
+                personalSection.classList.remove("d-none");
+            } else if (this.value === "public") {
+                publicSection.classList.remove("d-none");
+            }
+        });
+
+        // Function to add a new row
+        function addRow(containerId) {
+            const container = document.getElementById(containerId);
+            const firstRow = container.querySelector(".ingredient-row");
+            const newRow = firstRow.cloneNode(true);
+            newRow.querySelectorAll("select, input").forEach((el) => {
+                if (el.tagName === "SELECT") el.selectedIndex = 0;
+                if (el.tagName === "INPUT") el.value = "";
+            });
+            container.appendChild(newRow);
+
+            const removeBtn = newRow.querySelector(".remove-btn");
+            if (removeBtn) {
+                removeBtn.style.display = "inline-block";
+                removeBtn.addEventListener("click", () => newRow.remove());
+            }
+        }
+
+        // Add row listeners for both sections
+        document
+            .getElementById("addPersonal")
+            .addEventListener("click", () => addRow("personalFields"));
+        document
+            .getElementById("addPublic")
+            .addEventListener("click", () => addRow("publicFields"));
+
+        // Hide remove button on initial rows
+        document
+            .querySelectorAll("#personalFields .ingredient-row .remove-btn")
+            .forEach((btn) => (btn.style.display = "none"));
+        document
+            .querySelectorAll("#publicFields .ingredient-row .remove-btn")
+            .forEach((btn) => (btn.style.display = "none"));
+
+        // Function to handle form submission
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            resultsDiv.classList.add("d-none");
+            resultsDiv.innerHTML = `<p>Calculating...</p>`;
+            resultsDiv.classList.remove("d-none");
+
+            const inputs = [];
+            const rows = form.querySelectorAll(".ingredient-row");
+
+            if (form.id === "personalForm") {
+                rows.forEach((row) => {
+                    const vehicle = row.querySelector('select[name="vehicle[]"]').value;
+                    const fuel = row.querySelector('select[name="fuel[]"]').value;
+                    const distance = row.querySelector('input[name="distance[]"]').value;
+                    const unit = row.querySelector('select[name="unit[]"]').value;
+                    if (vehicle && fuel && distance && unit) {
+                        inputs.push({ type: vehicle, fuel, distance: parseFloat(distance), unit, category: 'personal' });
+                    }
+                });
+            } else if (form.id === "publicForm") {
+                rows.forEach((row) => {
+                    const vehicle = row.querySelector('select[name="vehicle[]"]').value;
+                    const fuel = row.querySelector('select[name="fuel[]"]').value;
+                    const distance = row.querySelector('input[name="distance[]"]').value;
+                    const unit = row.querySelector('select[name="unit[]"]').value;
+                    if (vehicle && fuel && distance && unit) {
+                        inputs.push({ type: vehicle, fuel, distance: parseFloat(distance), unit, category: 'public' });
+                    }
+                });
+            }
+
+            if (inputs.length === 0) {
+                resultsDiv.innerHTML = `<p class="text-danger">Please add at least one item to calculate your footprint.</p>`;
+                submitBtn.disabled = false;
+                resultsDiv.classList.remove("d-none");
+                resultsDiv.scrollIntoView({ behavior: "smooth" });
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/v1/footprint/transport", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ inputs }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    let suggestionsHTML = result.data.suggestions
+                        .map(
+                            (s) =>
+                            `<li><strong>${s.title}:</strong> ${s.description}</li>`
+                        )
+                        .join("");
+
+                    resultsDiv.innerHTML = `
+                        <h4 class="fw-bold" style="color: #0b342e;">Your Transport Footprint:</h4>
+                        <p style="font-size: 2rem; font-weight: bold; color: #0b342e;">${result.data.footprint.toFixed(
+                            2
+                        )} kg CO₂e</p>
+                        <h5 class="mt-4 fw-bold" style="color: #0b342e;">Personalized Suggestions:</h5>
+                        <ul>${suggestionsHTML}</ul>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `<p class="text-danger">Error: ${result.message}</p>`;
+                }
+            } catch (error) {
+                console.error("Fetch error:", error);
+                resultsDiv.innerHTML = `<p class="text-danger">A network error occurred. Please try again.</p>`;
+            } finally {
+                submitBtn.disabled = false;
+                resultsDiv.scrollIntoView({
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        // Attach event listeners to both forms
+        document
+            .getElementById("personalForm")
+            .addEventListener("submit", handleFormSubmit);
+        document
+            .getElementById("publicForm")
+            .addEventListener("submit", handleFormSubmit);
+    });
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>

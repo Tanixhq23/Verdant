@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Energy Carbon Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f8f7;
+    }
+
+    .hero {
+      background: url("/images/zim2.png") center/cover no-repeat;
+      height: 700px;
+      position: relative;
+    }
+
+    .hero-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    ::placeholder {
+      color: white !important;
+      opacity: 1;
+    }
+
+    .result-box {
+      background-color: #eaf4f3;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .custom-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      background: #0b342e url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E") no-repeat right 10px center;
+      background-size: 14px;
+      padding-right: 25px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="d-flex flex-column min-vh-100">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg" style="background-color: #0b342e">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-white" href="#">Verdant</a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../websitetracker/">Audit</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link text-white" href="../login.html">Sign-In</a>
+              </li> -->
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../contact.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" href="../about.html">About Us</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-text text-center">
+        <h1 class="fw-bold">Calculate Energy Carbon Emission</h1>
+        <p class="fs-5">
+          Know your energy usage's impact and choose greener practices.
+        </p>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="rounded shadow" style="background: white; border-radius: 15px; overflow: hidden">
+            <!-- header section-->
+            <div style="
+                  background-color: #0b342e;
+                  color: white;
+                  padding: 15px 20px;
+                ">
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Select Your Energy Type:</h5>
+                <select id="mainSelect" class="form-control text-center text-white custom-select ingredient-heading"
+                  style="
+                      width: 180px;
+                      border-radius: 20px;
+                      background-color: #0b342e;
+                      border: 1px solid white;
+                    ">
+                  <option value="" disabled selected>Energy</option>
+                  <option value="electricity">Electricity</option>
+                  <option value="liquid">Fuels (Liquid)</option>
+                  <option value="gaseous">Gaseous Fuels</option>
+                  <option value="solid">Solid Fuels / Biomass</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Electricity SECTION -->
+            <div id="electricitySection" class="p-4 d-none">
+              <div class="row fw-bold mb-3">
+                <div class="col-6">Electricity Units Consumed</div>
+                <div class="col-4">Unit</div>
+              </div>
+              <form>
+                <div id="electricityFields">
+                  <div class="row mb-3 align-items-center ingredient-row">
+                    <div class="col-6">
+                      <input type="number" class="form-control" name="Quantity[]" placeholder="Units Consumed" min="1"
+                        required />
+                    </div>
+                    <div class="col-4">
+                      <select class="form-select" name="Unit[]" required>
+                        <option value="" disabled selected>
+                          Choose unit
+                        </option>
+                        <option value="kWh (kiloWattHour)">
+                          kWh (kiloWattHour)
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-2 text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link fw-bold" id="addElectricity">
+                  + Add more
+                </button>
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end" style="
+                      background-color: #0b342e;
+                      color: white;
+                      border-radius: 30px;
+                      font-weight: 600;
+                    ">
+                  Calculate
+                </button>
+              </form>
+            </div>
+
+            <!-- Fuels (Liquid) SECTION -->
+            <div id="liquidSection" class="p-4 d-none">
+              <div class="row fw-bold mb-3">
+                <div class="col-4">Fuels (Liquid)</div>
+                <div class="col-4">Quantity</div>
+                <div class="col-2">Unit</div>
+              </div>
+              <form>
+                <div id="liquidFields">
+                  <div class="row mb-3 align-items-center ingredient-row">
+                    <div class="col-4">
+                      <select class="form-select" name="liquid_item[]" required>
+                        <option value="" disabled selected>
+                          Choose Fuel
+                        </option>
+                        <option value="lpg">LPG</option>
+                        <option value="petrol">Petrol</option>
+                        <option value="diesel">Diesel</option>
+                      </select>
+                    </div>
+                    <div class="col-4">
+                      <input type="number" class="form-control" name="liquid_quantity[]" placeholder="Quantity" min="1"
+                        required />
+                    </div>
+                    <div class="col-2">
+                      <select class="form-select" name="Unit[]" required>
+                        <option value="" disabled selected>
+                          Choose unit
+                        </option>
+                        <option value="kWh (kiloWattHour)">Liter</option>
+                      </select>
+                    </div>
+                    <div class="col-2 text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link fw-bold" id="addLiquid">
+                  + Add more
+                </button>
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end" style="
+                      background-color: #0b342e;
+                      color: white;
+                      border-radius: 30px;
+                      font-weight: 600;
+                    ">
+                  Calculate
+                </button>
+              </form>
+            </div>
+
+            <!-- Gaseous Fuels SECTION -->
+            <div id="gaseousSection" class="p-4 d-none">
+              <div class="row fw-bold mb-3">
+                <div class="col-4">Gaseous Fuels</div>
+                <div class="col-4">Quantity</div>
+                <div class="col-2">Unit</div>
+              </div>
+              <form>
+                <div id="gaseousFields">
+                  <div class="row mb-3 align-items-center ingredient-row">
+                    <div class="col-4">
+                      <select class="form-select" name="gaseous_item[]" required>
+                        <option value="" disabled selected>Choose Gas</option>
+                        <option value="png">PNG</option>
+                        <option value="cng">CNG</option>
+                      </select>
+                    </div>
+                    <div class="col-4">
+                      <input type="number" class="form-control" name="gaseous_quantity[]" placeholder="Quantity" min="1"
+                        required />
+                    </div>
+                    <div class="col-2">
+                      <select class="form-select" name="Unit[]" required>
+                        <option value="" disabled selected>
+                          Choose unit
+                        </option>
+                        <option value="SCM (Standard Cubic Meter)">
+                          SCM (Standard Cubic Meter)
+                        </option>
+                        <option value="kg">kg</option>
+                      </select>
+                    </div>
+                    <div class="col-2 text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link fw-bold" id="addGaseous">
+                  + Add more
+                </button>
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end" style="
+                      background-color: #0b342e;
+                      color: white;
+                      border-radius: 30px;
+                      font-weight: 600;
+                    ">
+                  Calculate
+                </button>
+              </form>
+            </div>
+
+            <!-- Solid Fuels SECTION -->
+            <div id="solidSection" class="p-4 d-none">
+              <div class="row fw-bold mb-3">
+                <div class="col-4">Solid Fuels</div>
+                <div class="col-4">Quantity</div>
+                <div class="col-2">Unit</div>
+              </div>
+              <form>
+                <div id="solidFields">
+                  <div class="row mb-3 align-items-center ingredient-row">
+                    <div class="col-4">
+                      <select class="form-select" name="solid_item[]" required>
+                        <option value="" disabled selected>
+                          Choose Solid Fuel
+                        </option>
+                        <option value="firewood">Firewood</option>
+                        <option value="charcoal">Charcoal</option>
+                        <option value="cow_dung">Cow Dung</option>
+                        <option value="solar">Solar</option>
+                      </select>
+                    </div>
+                    <div class="col-4">
+                      <input type="number" class="form-control" name="solid_quantity[]" placeholder="Quantity" min="1"
+                        required />
+                    </div>
+                    <div class="col-2">
+                      <select class="form-select" name="Unit[]" required>
+                        <option value="" disabled selected>unit</option>
+                        <option value="kg">kg</option>
+                      </select>
+                    </div>
+                    <div class="col-2 text-end">
+                      <button type="button" class="btn btn-sm btn-outline-danger rounded-circle remove-btn">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-link fw-bold" id="addSolid">
+                  + Add more
+                </button>
+                <button type="submit" class="btn btn-sm px-4 py-2 shadow float-end" style="
+                      background-color: #0b342e;
+                      color: white;
+                      border-radius: 30px;
+                      font-weight: 600;
+                    ">
+                  Calculate
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container my-5">
+      <div id="results" class="result-box d-none"></div>
+    </div>
+
+    <!-- artical section-->
+    <div class="container my-5">
+      <div class="p-4" style="background-color: #f8f9fa; border-radius: 15px">
+        <h3 class="fw-bold mb-4 mt-4" style="color: #0b342e">
+          How to Lower Your Energy Carbon Footprint
+        </h3>
+
+        <p>
+          Energy usage is one of the largest contributors to global carbon
+          emissions, with electricity and heating driving a major portion of
+          household and commercial impact. By making smart energy decisions,
+          you can significantly cut your carbon footprint.
+        </p>
+
+        <p>
+          Here are four practical ways to reduce your energy-related carbon
+          emissions.
+        </p>
+
+        <img src="/images/energy1.jpg" style="height: 400px; width: 70%; display: block; margin: auto" />
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e">
+          1. Switch to renewable energy sources
+        </h5>
+        <p>
+          If available, opt for electricity plans that source from solar,
+          wind, or hydro power. These energy sources produce little to no
+          carbon emissions compared to coal or gas-based power.
+        </p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e">
+          2. Use energy-efficient appliances
+        </h5>
+        <p>
+          Choose appliances with high energy star ratings. Energy-efficient
+          lighting, refrigerators, and air conditioners consume significantly
+          less power, reducing both emissions and electricity bills.
+        </p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e">
+          3. Reduce heating and cooling demand
+        </h5>
+        <p>
+          Proper insulation, sealing leaks, and using programmable thermostats
+          can help minimize the energy required to heat or cool your home.
+          Even small changes in temperature settings can lead to big carbon
+          savings.
+        </p>
+
+        <h6 class="fw-bold">Example: 1°C AC Temperature Adjustment</h6>
+        <p>
+          Increasing your AC temperature setting from 22°C to 24°C can reduce
+          energy consumption by up to 10%, cutting your carbon emissions
+          without compromising comfort.
+        </p>
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e">
+          4. Unplug devices and turn off when not in use
+        </h5>
+        <p>
+          Many electronics continue to draw power in standby mode. Unplugging
+          chargers, turning off unused devices, and using smart power strips
+          helps eliminate this "phantom load."
+        </p>
+
+        <img src="/images/energy2.jpg" style="height: 400px; width: 70%; display: block; margin: auto" />
+
+        <h5 class="fw-bold mt-4" style="color: #0b342e">Conclusion</h5>
+        <p>
+          Lowering your energy carbon footprint doesn't require major
+          sacrifices — just conscious choices. By switching to renewables,
+          improving efficiency, managing heating/cooling wisely, and
+          unplugging unused electronics, you can play a vital role in the
+          fight against climate change.
+        </p>
+
+        <img src="/images/energy3.jpg" style="height: 400px; width: 70%; display: block; margin: auto" />
+      </div>
+    </div>
+
+    <a href="../faq.html" class="btn btn-dark position-fixed bottom-0 end-0 m-3 rounded-pill">FAQs</a>
+
+    <!-- Footer -->
+    <footer class="mt-auto text-white py-4" style="background-color: #0b342e">
+      <div class="container text-center">
+        <p class="mb-1">©2025 Verdant. All rights reserved.</p>
+        <p class="mb-0">
+          <a href="../about.html" class="text-white text-decoration-none me-3">About</a>
+          <a href="../contact.html" class="text-white text-decoration-none me-3">Contact</a>
+          <a href="../faq.html" class="text-white text-decoration-none">FAQs</a>
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Script -->
+  <script>
+    // UI Logic to show/hide sections
+    const mainSelect = document.getElementById("mainSelect");
+    const sections = {
+      electricity: document.getElementById("electricitySection"),
+      liquid: document.getElementById("liquidSection"),
+      gaseous: document.getElementById("gaseousSection"),
+      solid: document.getElementById("solidSection"),
+    };
+    mainSelect.addEventListener("change", function () {
+      const value = this.value;
+      Object.values(sections).forEach((section) =>
+        section.classList.add("d-none")
+      );
+      if (sections[value]) sections[value].classList.remove("d-none");
+    });
+
+    // UI Logic for Add/Remove buttons (Your existing code was perfect)
+    function addMoreHandler(buttonId, fieldId) {
+      document
+        .getElementById(buttonId)
+        .addEventListener("click", function () {
+          const fields = document.getElementById(fieldId);
+          const firstRow = fields.querySelector(".ingredient-row");
+          const newRow = firstRow.cloneNode(true);
+          newRow
+            .querySelectorAll("input")
+            .forEach((input) => (input.value = ""));
+          newRow
+            .querySelectorAll("select")
+            .forEach((select) => (select.selectedIndex = 0));
+          fields.appendChild(newRow);
+          const removeBtn = newRow.querySelector(".remove-btn");
+          if (removeBtn) removeBtn.style.display = "inline-block";
+        });
+    }
+    addMoreHandler("addElectricity", "electricityFields");
+    addMoreHandler("addLiquid", "liquidFields");
+    addMoreHandler("addGaseous", "gaseousFields");
+    addMoreHandler("addSolid", "solidFields");
+    document.addEventListener("click", function (e) {
+      if (e.target.classList.contains("remove-btn")) {
+        const row = e.target.closest(".ingredient-row");
+        if (
+          row &&
+          row.parentNode.querySelectorAll(".ingredient-row").length > 1
+        ) {
+          row.remove();
+        }
+      }
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+      [
+        "electricityFields",
+        "liquidFields",
+        "gaseousFields",
+        "solidFields",
+      ].forEach((id) => {
+        const firstRemoveBtn = document.querySelector(
+          `#${id} .ingredient-row .remove-btn`
+        );
+        if (firstRemoveBtn) firstRemoveBtn.style.display = "none";
+      });
+    });
+
+    // --- NEW LOGIC FOR FORM SUBMISSION ---
+    const allForms = document.querySelectorAll("form");
+    const resultsDiv = document.getElementById("results");
+
+    allForms.forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Prevent page reload
+
+        const inputs = [];
+        const rows = form.querySelectorAll(".ingredient-row");
+
+        rows.forEach((row) => {
+          const quantityInput = row.querySelector('input[type="number"]');
+          const unitSelect = row.querySelector('select[name="Unit[]"]');
+          // Item select is for liquid/gaseous/solid fuels
+          const itemSelect = row.querySelector('select:not([name="Unit[]"])');
+
+          if (
+            quantityInput &&
+            quantityInput.value &&
+            unitSelect &&
+            unitSelect.value
+          ) {
+            inputs.push({
+              type: itemSelect ? itemSelect.value : "electricity",
+              quantity: parseFloat(quantityInput.value),
+              unit: unitSelect.value,
+            });
+          }
+        });
+
+        if (inputs.length === 0) {
+          alert("Please fill out the form fields.");
+          return;
+        }
+
+        // Show loading message and display the results box
+        resultsDiv.classList.remove("d-none");
+        resultsDiv.innerHTML = "<h5>Calculating your footprint...</h5>";
+
+        try {
+          const response = await fetch("/api/v1/footprint/energy", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ inputs }),
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            let suggestionsHTML = result.data.suggestions
+              .map(
+                (s) =>
+                  `<li><strong>${s.title}:</strong> ${s.description}</li>`
+              )
+              .join("");
+
+            resultsDiv.innerHTML = `
+                      <h4 class="fw-bold" style="color: #0b342e;">Your Monthly Energy Footprint:</h4>
+                      <p style="font-size: 2rem; font-weight: bold; color: #0b342e;">${result.data.footprint.toFixed(
+              2
+            )} kg CO₂e</p>
+                      <h5 class="mt-4 fw-bold" style="color: #0b342e;">Personalized Suggestions:</h5>
+                      <ul>${suggestionsHTML}</ul>
+                    `;
+          } else {
+            resultsDiv.innerHTML = `<p class="text-danger">Error: ${result.message}</p>`;
+          }
+        } catch (error) {
+          console.error("Fetch error:", error);
+          resultsDiv.innerHTML = `<p class="text-danger">A network error occurred. Please try again.</p>`;
+        }
+        // Scroll to the results
+        resultsDiv.scrollIntoView({ behavior: "smooth" });
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

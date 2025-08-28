@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eco Web Insight Report</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      background-color: #f8f5ed;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .score-circle {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: conic-gradient(#d4a651 62%, #e9e9e9 0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #b57c0f;
+      margin: auto;
+    }
+
+    .verdict-box {
+      background-color: #214e35;
+      color: white;
+      padding: 1.2rem;
+      border-radius: 12px;
+    }
+
+    .icon-success {
+      color: green;
+    }
+
+    .icon-fail {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="container my-5">
+    <h2 class="text-center mb-4">🌿 Eco Web Insight Report</h2>
+
+    <div class="row g-4">
+      <!-- Lighthouse Score -->
+      <div class="col-md-4">
+        <div class="card text-center p-3">
+          <h5>Lighthouse Score</h5>
+          <div class="score-circle">62</div>
+        </div>
+      </div>
+
+      <!-- Carbon Footprint -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5 class="text-center">Carbon Footprint</h5>
+          <p class="text-center fs-4 fw-bold text-success mb-1">0.4635g</p>
+          <p class="text-center text-muted mb-1">CO2 per visit</p>
+          <p class="text-center text-success">🌱 Cleaner than <strong>91.83%</strong> of websites</p>
+          <p class="text-center icon-fail">❌ Not on a green host</p>
+        </div>
+      </div>
+
+      <!-- Page Heuristics -->
+      <div class="col-md-4">
+        <div class="card p-3">
+          <h5 class="text-center">Page Heuristics</h5>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total Requests</span><strong>56</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Uncompressed Images</span><strong>0</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Large Scripts</span><strong>2</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>External Domains</span><strong>9</strong>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Verdict -->
+    <div class="row mt-4">
+      <div class="col-12">
+        <div class="verdict-box">
+          <h6>🧠 AI Verdict</h6>
+          <p class="mb-0">
+            This website has a low carbon footprint, as it is cleaner than 91.83% of tested websites.
+            However, it is <strong>not hosted on a green server</strong>, which could be improved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
