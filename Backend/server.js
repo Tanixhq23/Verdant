@@ -42,7 +42,7 @@ app.use(
 
 // Proxy to FastAPI
 app.use('/report', createProxyMiddleware({
-  target: 'http://127.0.0.1:8001',
+  target: 'https://verdant-1-iyd7.onrender.com/',
   changeOrigin: true
 }));
 
