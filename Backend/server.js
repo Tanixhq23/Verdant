@@ -43,7 +43,8 @@ app.use(
 // Proxy to FastAPI
 app.use('/report', createProxyMiddleware({
   target: 'https://verdant-1-iyd7.onrender.com/',
-  changeOrigin: true
+  changeOrigin: true,
+  pathRewrite: { '^/report': '/' } 
 }));
 
 // --- API routes ---
