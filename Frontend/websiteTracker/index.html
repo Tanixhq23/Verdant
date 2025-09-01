@@ -431,9 +431,15 @@ We grade your website based on energy efficiency, load speed, data transfer, and
           });
 
           if (!response.ok) {
-            const errorData = await response.json().catch(() => response.text());
-            throw new Error(`Server error: ${typeof errorData === 'object' && errorData.error ? errorData.error : errorData}`);
-          }
+    const errorBody = await response.text(); // Read the body once as text
+    let errorData;
+    try {
+        errorData = JSON.parse(errorBody); // Attempt to parse the stored text as JSON
+    } catch (e) {
+        errorData = errorBody; // If parsing fails, use the raw text
+    }
+    throw new Error(`Server error: ${typeof errorData === 'object' && errorData.error ? errorData.error : errorData}`);
+}
 
           const result = await response.json();
           downloadJSON(result, 'audit-report.json');
