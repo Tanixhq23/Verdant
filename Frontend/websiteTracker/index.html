@@ -378,8 +378,8 @@
       crossorigin="anonymous"
     ></script>
 
-    <script>
-      document.getElementById('auditForm').addEventListener('submit', async function(event) {
+   <script>
+    document.getElementById('auditForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
         const url = document.getElementById('urlInput').value;
@@ -388,11 +388,11 @@
         const errorMessageDiv = document.getElementById('errorMessage');
 
         if (!url) {
-          alert("Please enter a URL to audit.");
-          return;
+            errorMessageDiv.textContent = "Please enter a URL to audit.";
+            errorMessageDiv.style.display = 'block';
+            return;
         }
 
-        // Reset previous error messages
         errorMessageDiv.style.display = 'none';
         errorMessageDiv.textContent = '';
         
@@ -401,57 +401,43 @@
         loadingSpinner.style.display = 'flex';
 
         try {
-          const response = await fetch('https://verdant-bltm.onrender.com/websiteTracker/', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ url })
-          });
+            // Corrected API endpoint for the fetch call
+            const response = await fetch('/api/v1/footprint/report', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url })
+            });
 
-          // Check if the response is OK (status in the 200s)
-          if (!response.ok) {
-            // Read the body once and store it as text for inspection
-            const errorText = await response.text(); 
-            // The server might return a non-HTML error message.
-            // This tries to parse it, but if it fails, it uses the raw text.
-            let errorData = errorText;
-            try {
-              errorData = JSON.parse(errorText);
-            } catch (e) {
-              // Ignore parsing errors, as the raw text is enough
+            if (!response.ok) {
+                const errorText = await response.text(); 
+                let errorData = errorText;
+                try {
+                    errorData = JSON.parse(errorText);
+                } catch (e) {
+                }
+                const message = typeof errorData === 'object' && errorData.error ? errorData.error : errorData;
+                throw new Error(message);
             }
-            const message = typeof errorData === 'object' && errorData.error ? errorData.error : errorData;
-            throw new Error(message);
-          }
 
-          // If the response is OK, we expect it to be JSON. Read the body once.
-          const result = await response.json();
-          downloadJSON(result, 'audit-report.json');
-          window.location.href = '/report';
+            const result = await response.json();
+            
+            console.log("Audit Report Data:", result);
+
+            localStorage.setItem('auditReport', JSON.stringify(result));
+            window.location.href = '/report';
 
         } catch (error) {
-          console.error('Audit failed:', error);
-          errorMessageDiv.textContent = `Audit failed: ${error.message}`;
-          errorMessageDiv.style.display = 'block';
+            console.error('Audit failed:', error);
+            errorMessageDiv.textContent = `Audit failed: ${error.message}`;
+            errorMessageDiv.style.display = 'block';
         } finally {
-          analyzeButton.disabled = false;
-          analyzeButton.textContent = 'Analyze';
-          loadingSpinner.style.display = 'none';
+            analyzeButton.disabled = false;
+            analyzeButton.textContent = 'Analyze';
+            loadingSpinner.style.display = 'none';
         }
-      });
-
-      function downloadJSON(data, filename) {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }
-    </script>
+    });
+</script>
   </body>
 </html>
