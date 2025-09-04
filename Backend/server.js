@@ -1,103 +1,93 @@
+// server.js
 require('dotenv').config(); // Load environment variables FIRST
 
 const express = require('express');
-const morgan = require("morgan");
+const morgan = require('morgan');
 const cors = require('cors');
 const path = require('path');
 const mongoose = require('mongoose');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const logger = require("./utils/logger");
-const { mongoURI } = require('./config/config');
+const logger = require('./utils/logger');
+const { port, mongoURI } = require('./config/config');
+
+// --- Routes ---
 const auditRoutes = require('./routes/auditRoutes');
 const footprintRoutes = require('./routes/footprintRoutes');
-const errorHandler = require("./middlewares/errorHandler");
+const reportRoutes = require('./routes/reportRoutes');
+
+// --- Middlewares ---
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 
-// --- Set the port from environment variables ---
-const port = process.env.PORT || 3000;
-
-// --- Middlewares ---
+// --- Core Middlewares ---
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '../', 'Frontend')));
 
-// HTTP request logging via morgan + winston
+
+// --- Logging (Morgan + Winston) ---
 app.use(
-    morgan("combined", {
-        skip: (req, res) => res.statusCode >= 400,
-        stream: {
-            write: (message) => logger.info(message.trim()),
-        },
-    })
+  morgan('combined', {
+    skip: (req, res) => res.statusCode >= 400,
+    stream: { write: (message) => logger.info(message.trim()) },
+  })
 );
 
 app.use(
-    morgan("combined", {
-        skip: (req, res) => res.statusCode < 400,
-        stream: {
-            write: (message) => logger.error(message.trim()),
-        },
-    })
+  morgan('combined', {
+    skip: (req, res) => res.statusCode < 400,
+    stream: { write: (message) => logger.error(message.trim()) },
+  })
 );
 
-// Proxy to FastAPI
-app.use('/report', createProxyMiddleware({
-    target: 'https://verdant-1-iyd7.onrender.com/',
-    changeOrigin: true,
-    pathRewrite: { '^/report': '/' } 
-}));
-
-// --- API routes ---
+// --- API Routes ---
+app.use('/api/reports', reportRoutes);
 app.use('/api', auditRoutes);
 app.use('/api/v1/footprint', footprintRoutes);
 
-// --- Serve frontend ---
+// --- Serve Frontend ---
 app.use(express.static(path.join(__dirname, '../', 'Frontend')));
+
+
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../', 'Frontend', 'index.html'));
+  res.sendFile(path.join(__dirname, '../', 'Frontend', 'index.html'));
 });
 
-// Route for serving the website tracker HTML
+app.get('/report', (req, res) => {
+  res.sendFile(path.join(__dirname, '../', 'Frontend','websiteTracker', 'report.html'));
+});
+
 app.get('/websiteTracker', (req, res) => {
-    res.sendFile(path.join(__dirname, '../', 'Frontend', 'websiteTracker', 'index.html'));
+  res.sendFile(path.join(__dirname, '../', 'Frontend', 'websiteTracker', 'index.html'));
 });
 
-// New route to handle POST requests from the website tracker
-app.post('/websiteTracker', (req, res) => {
-    // Process the data sent from the frontend
-    logger.info('Received data from /websiteTracker POST:', { data: req.body });
-    
-    // Respond with a success message
-    res.status(200).json({ message: "Tracker data received successfully." });
-});
-
-// --- Error Handling Middleware (LAST) ---
-// 1. Inline unhandled error logger
+// --- Error Handling ---
+// Inline fallback logger for unhandled errors
 app.use((err, req, res, next) => {
-    logger.error('🔥 Unhandled error:', {
-        message: err.message,
-        stack: err.stack,
-        url: req.originalUrl
-    });
-    res.status(500).json({ error: "Internal Server Error" });
+  logger.error('🔥 Unhandled error:', {
+    message: err.message,
+    stack: err.stack,
+    url: req.originalUrl,
+  });
+  res.status(500).json({ error: 'Internal Server Error' });
 });
 
-// 2. Centralized error handler (custom middleware)
+// Centralized custom error handler
 app.use(errorHandler);
 
-// --- Debugging Mongo URI ---
-logger.debug(`DEBUG: mongoURI from config: ${mongoURI}`);
+// --- MongoDB Connection ---
+logger.debug(`DEBUG: mongoURI from config`);
 if (!mongoURI) {
-    logger.error('CRITICAL ERROR: MONGODB_URI is not defined in your .env file or config.js');
-    process.exit(1);
+  logger.error('CRITICAL ERROR: MONGODB_URI is not defined in .env or config.js');
+  process.exit(1);
 }
 
-// --- Connect to MongoDB ---
-mongoose.connect(mongoURI)
-    .then(() => logger.info('✅ MongoDB connected'))
-    .catch(err => logger.error(`❌ MongoDB connection error: ${err.message}`, { error: err }));
+mongoose
+  .connect(mongoURI)
+  .then(() => logger.info('MongoDB connected'))
+  .catch((err) => logger.error(`MongoDB connection error: ${err.message}`, { error: err }));
 
 // --- Start Server ---
 app.listen(port, () => {
-    logger.info(`🚀 Server running on http://localhost:${port}`);
+  logger.info(`Server running on http://localhost:${port}`);
 });
