@@ -55,23 +55,15 @@
 
       <div class="row g-4">
         <!-- Lighthouse Score -->
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card text-center p-3">
             <h5>Lighthouse Score</h5>
             <div id="lighthouse-score" class="score-circle">--</div>
           </div>
         </div>
 
-        <!-- Performance Score -->
-        <div class="col-md-4">
-          <div class="card text-center p-3">
-            <h5>Performance Score</h5>
-            <div id="performance-score" class="score-circle">--</div>
-          </div>
-        </div>
-
         <!-- Carbon Footprint -->
-        <div class="col-md-4">
+        <div class="col-md-6">
           <div class="card p-3">
             <h5 class="text-center">Carbon Footprint</h5>
             <p
@@ -179,26 +171,19 @@
               ? `conic-gradient(#d4a651 ${report.lighthouseScore}%, #e9e9e9 0)`
               : "#ccc";
 
-          // Performance score
-          const perfEl = document.getElementById("performance-score");
-          perfEl.textContent = report.performanceScore ?? "N/A";
-          perfEl.style.background =
-            report.performanceScore !== undefined
-              ? `conic-gradient(#28a745 ${report.performanceScore}%, #e9e9e9 0)`
-              : "#ccc";
-
           // Carbon footprint
           document.getElementById("carbon-gram").textContent =
-            report.carbonAnalysis?.totalCO2 !== undefined
-              ? report.carbonAnalysis.totalCO2 + "g"
+            report.carbonAnalysis?.co2PerVisit !== undefined
+              ? report.carbonAnalysis.co2PerVisit + "g"
               : "N/A";
           document.getElementById("cleaner-percent").textContent =
             report.carbonAnalysis?.cleanerThan !== undefined
               ? report.carbonAnalysis.cleanerThan + "%"
               : "N/A";
-          document.getElementById("green-host").textContent = report.greenHosting
-            ? "✅ On a green host"
-            : "❌ Not on a green host";
+          document.getElementById("green-host").textContent =
+            report.carbonAnalysis.greenHost
+              ? "✅ On a green host"
+              : "❌ Not on a green host";
 
           // Heuristics
           document.getElementById("total-requests").textContent =
@@ -212,18 +197,19 @@
 
           // Resource Breakdown
           document.getElementById("scripts-size").textContent =
-            report.resourceData?.scripts ?? "N/A";
+            report.breakdown?.js ?? "N/A";
           document.getElementById("images-size").textContent =
-            report.resourceData?.images ?? "N/A";
+            report.breakdown?.images ?? "N/A";
           document.getElementById("fonts-size").textContent =
-            report.resourceData?.fonts ?? "N/A";
+            report.breakdown?.fonts ?? "N/A";
           document.getElementById("stylesheets-size").textContent =
-            report.resourceData?.stylesheets ?? "N/A";
+            report.breakdown?.css ?? "N/A";
 
           // Page Analysis
-          document.getElementById("page-analysis").textContent =
-            report.pageAnalysis?.summary ??
-            JSON.stringify(report.pageAnalysis || "N/A");
+          const pa = report.pageAnalysis;
+          document.getElementById("page-analysis").textContent = pa
+            ? `Scripts: ${pa.totalScripts}, External: ${pa.externalScripts}, Fonts: ${pa.fonts}, Images without Lazy: ${pa.imagesWithoutLazy}, DOM Nodes: ${pa.domNodes}`
+            : "N/A";
 
           // AI verdict (Markdown → HTML)
           document.getElementById("ai-verdict").innerHTML =
