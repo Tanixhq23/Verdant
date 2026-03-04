@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: verdant-app
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    buildCommand: cd Backend && npm ci
+    startCommand: cd Backend && npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: LOG_LEVEL
+        value: info
+      - key: GREENWEB_API
+        value: https://api.thegreenwebfoundation.org/greencheck/
+      - key: MONGODB_URI
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false

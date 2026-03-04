@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eco Web Insight Report</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f8f5ed;
+      }
+
+      .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .score-circle {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin: auto;
+        background: conic-gradient(#d4a651 0%, #e9e9e9 0);
+      }
+
+      .verdict-box {
+        background-color: #214e35;
+        color: white;
+        padding: 1.2rem;
+        border-radius: 12px;
+      }
+
+      .icon-success {
+        color: green;
+      }
+
+      .icon-fail {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container my-5">
+      <h2 class="text-center mb-4">🌿 Eco Web Insight Report</h2>
+
+      <div class="row g-4">
+        <!-- Lighthouse Score -->
+        <div class="col-md-6">
+          <div class="card text-center p-3">
+            <h5>Lighthouse Score</h5>
+            <div id="lighthouse-score" class="score-circle">--</div>
+          </div>
+        </div>
+
+        <!-- Carbon Footprint -->
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5 class="text-center">Carbon Footprint</h5>
+            <p
+              id="carbon-gram"
+              class="text-center fs-4 fw-bold text-success mb-1"
+            >
+              N/A
+            </p>
+            <p class="text-center text-muted mb-1">CO2 per visit</p>
+            <p class="text-center text-success">
+              🌱 Cleaner than <strong id="cleaner-percent">N/A</strong> of
+              websites
+            </p>
+            <p id="green-host" class="text-center icon-fail">N/A</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Heuristics -->
+      <div class="row g-4 mt-3">
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5 class="text-center">Page Heuristics</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Total Requests</span
+                ><strong id="total-requests">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Uncompressed Images</span
+                ><strong id="uncompressed-images">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Large Scripts</span
+                ><strong id="large-scripts">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>External Domains</span
+                ><strong id="external-domains">N/A</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Resource Breakdown -->
+        <div class="col-md-6">
+          <div class="card p-3">
+            <h5 class="text-center">Resource Breakdown</h5>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Scripts</span><strong id="scripts-size">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Images</span><strong id="images-size">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Fonts</span><strong id="fonts-size">N/A</strong>
+              </li>
+              <li class="list-group-item d-flex justify-content-between">
+                <span>Stylesheets</span
+                ><strong id="stylesheets-size">N/A</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Analysis -->
+      <div class="row g-4 mt-3">
+        <div class="col-12">
+          <div class="card p-3">
+            <h5 class="text-center">Page Analysis</h5>
+            <p id="page-analysis">N/A</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Verdict -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="verdict-box">
+            <h6>🧠 AI Verdict</h6>
+            <div id="ai-verdict">N/A</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Markdown renderer -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+      async function loadReport() {
+        try {
+          const res = await fetch("/api/reports/latest-analysis");
+          const data = await res.json();
+
+          const report = data.report || {};
+          const analysis = data.analysis || "No analysis available.";
+
+          // Lighthouse score
+          const lighthouseScoreEl = document.getElementById("lighthouse-score");
+          lighthouseScoreEl.textContent = report.lighthouseScore ?? "N/A";
+          lighthouseScoreEl.style.background =
+            report.lighthouseScore !== undefined
+              ? `conic-gradient(#d4a651 ${report.lighthouseScore}%, #e9e9e9 0)`
+              : "#ccc";
+
+          // Carbon footprint
+          document.getElementById("carbon-gram").textContent =
+            report.carbonAnalysis?.co2PerVisit !== undefined
+              ? report.carbonAnalysis.co2PerVisit + "g"
+              : "N/A";
+          document.getElementById("cleaner-percent").textContent =
+            report.carbonAnalysis?.cleanerThan !== undefined
+              ? report.carbonAnalysis.cleanerThan + "%"
+              : "N/A";
+          document.getElementById("green-host").textContent =
+            report.carbonAnalysis.greenHost
+              ? "✅ On a green host"
+              : "❌ Not on a green host";
+
+          // Heuristics
+          document.getElementById("total-requests").textContent =
+            report.heuristics?.totalRequests ?? "N/A";
+          document.getElementById("uncompressed-images").textContent =
+            report.heuristics?.uncompressedImages ?? "N/A";
+          document.getElementById("large-scripts").textContent =
+            report.heuristics?.largeScripts ?? "N/A";
+          document.getElementById("external-domains").textContent =
+            report.heuristics?.externalDomains ?? "N/A";
+
+          // Resource Breakdown
+          document.getElementById("scripts-size").textContent =
+            report.breakdown?.js ?? "N/A";
+          document.getElementById("images-size").textContent =
+            report.breakdown?.images ?? "N/A";
+          document.getElementById("fonts-size").textContent =
+            report.breakdown?.fonts ?? "N/A";
+          document.getElementById("stylesheets-size").textContent =
+            report.breakdown?.css ?? "N/A";
+
+          // Page Analysis
+          const pa = report.pageAnalysis;
+          document.getElementById("page-analysis").textContent = pa
+            ? `Scripts: ${pa.totalScripts}, External: ${pa.externalScripts}, Fonts: ${pa.fonts}, Images without Lazy: ${pa.imagesWithoutLazy}, DOM Nodes: ${pa.domNodes}`
+            : "N/A";
+
+          // AI verdict (Markdown → HTML)
+          document.getElementById("ai-verdict").innerHTML =
+            marked.parse(analysis);
+        } catch (err) {
+          console.error("Error loading report:", err);
+          document.getElementById("ai-verdict").textContent =
+            "⚠️ Failed to load report.";
+        }
+      }
+
+      loadReport();
+    </script>
+  </body>
+</html>
