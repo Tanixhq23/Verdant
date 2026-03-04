@@ -24,7 +24,14 @@ document.getElementById("auditForm").addEventListener("submit", async function (
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => response.text());
+      // Read response body once, then parse safely as JSON if possible.
+      const rawError = await response.text();
+      let errorData = rawError;
+      try {
+        errorData = JSON.parse(rawError);
+      } catch (_err) {
+        // Keep plain text fallback.
+      }
       throw new Error(
         `Server error: ${
           typeof errorData === "object" && errorData.error ? errorData.error : errorData
