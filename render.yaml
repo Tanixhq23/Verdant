@@ -6,7 +6,7 @@ services:
     region: oregon
     branch: main
     autoDeploy: true
-    buildCommand: cd Backend && npm ci && npx puppeteer browsers install chrome
+    buildCommand: mkdir -p Backend/.cache/puppeteer && cd Backend && npm ci && npx puppeteer browsers install chrome --path ./.cache/puppeteer
     startCommand: cd Backend && npm start
     healthCheckPath: /
     envVars:
@@ -16,6 +16,8 @@ services:
         value: info
       - key: GREENWEB_API
         value: https://api.thegreenwebfoundation.org/greencheck/
+      - key: PUPPETEER_CACHE_DIR
+        value: /opt/render/project/src/Backend/.cache/puppeteer
       - key: MONGODB_URI
         sync: false
       - key: OPENAI_API_KEY
