@@ -29,9 +29,6 @@ ENV/
 
 # Project generated artifacts
 Backend/logs/
-Backend/pythonAI/venv/
-Backend/pythonAI/__pycache__/
-Backend/pythonAI/*.pyc
 audit-report*.json
 *.log
 

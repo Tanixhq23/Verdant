@@ -58,8 +58,13 @@ exports.auditWebsite = async (req, res) => {
     const breakdown = breakdownResources(detailedData.resources);
 
     // 7️⃣ Final verdict
+    const hasMeasuredCarbon =
+      typeof carbonAnalysis?.co2PerVisit === "number" &&
+      Number.isFinite(carbonAnalysis.co2PerVisit);
+
     const verdict =
       lighthouseScore > 60 &&
+      hasMeasuredCarbon &&
       carbonAnalysis.co2PerVisit < 0.8 &&
       greenHosting
         ? "Optimized"
