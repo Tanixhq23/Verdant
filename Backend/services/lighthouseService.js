@@ -1,38 +1,27 @@
-const fs = require("fs");
-
 exports.runLighthouseAudit = async (url) => {
-  // Dynamically import both
-  const chromeLauncher = await import("chrome-launcher");
   const { default: lighthouse } = await import("lighthouse");
-  const puppeteer = await import("puppeteer");
+  const puppeteerModule = await import("puppeteer");
+  const puppeteer = puppeteerModule.default || puppeteerModule;
 
-  const discoveredChromePath =
-    process.env.CHROME_PATH ||
-    (typeof puppeteer.executablePath === "function" ? puppeteer.executablePath() : undefined);
-
-  // Only pass an executable path if the browser binary actually exists.
-  const chromePath =
-    discoveredChromePath && fs.existsSync(discoveredChromePath)
-      ? discoveredChromePath
-      : undefined;
-
-  const chrome = await chromeLauncher.launch({
-    chromePath,
-    chromeFlags: [
-      "--headless=new",      // Use new headless mode
-      "--no-sandbox",        // Required in Docker/Linux
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: [
+      "--no-sandbox",
       "--disable-setuid-sandbox",
-      "--disable-dev-shm-usage", // Avoid memory issues in Docker
-      "--disable-gpu",       // Recommended for headless
-      "--incognito",         // Clean state
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--incognito",
     ],
   });
+
+  const wsEndpoint = browser.wsEndpoint();
+  const browserPort = Number(new URL(wsEndpoint).port);
 
   const options = {
     logLevel: "info",
     output: "json",
     onlyCategories: ["performance"],
-    port: chrome.port,
+    port: browserPort,
   };
 
   try {
@@ -42,6 +31,6 @@ exports.runLighthouseAudit = async (url) => {
     console.error(`Lighthouse Audit Error for ${url}:`, error);
     throw new Error(`Lighthouse audit failed: ${error.message || error}`);
   } finally {
-    await chrome.kill(); // Always clean up
+    await browser.close();
   }
 };
