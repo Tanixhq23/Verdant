@@ -1,5 +1,4 @@
-// Don't use require() here, chrome-launcher is ESM
-// const chromeLauncher = require("chrome-launcher");
+const fs = require("fs");
 
 exports.runLighthouseAudit = async (url) => {
   // Dynamically import both
@@ -7,9 +6,15 @@ exports.runLighthouseAudit = async (url) => {
   const { default: lighthouse } = await import("lighthouse");
   const puppeteer = await import("puppeteer");
 
-  const chromePath =
+  const discoveredChromePath =
     process.env.CHROME_PATH ||
     (typeof puppeteer.executablePath === "function" ? puppeteer.executablePath() : undefined);
+
+  // Only pass an executable path if the browser binary actually exists.
+  const chromePath =
+    discoveredChromePath && fs.existsSync(discoveredChromePath)
+      ? discoveredChromePath
+      : undefined;
 
   const chrome = await chromeLauncher.launch({
     chromePath,
